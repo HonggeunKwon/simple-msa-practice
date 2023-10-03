@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '3.1.4'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+    }
+}
+
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+ext {
+    set('springCloudVersion', "2022.0.4")
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        List.of("user", "event", "common", "auth").stream()
+                .filter(p -> project.name.contains(p))
+                .forEach {
+                    project.dependencies {
+                        implementation project(path: ':common-project')
+                        implementation 'org.springframework.boot:spring-boot-starter-web'
+                        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+                    }
+                }
+
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        compileOnly 'org.projectlombok:lombok:1.18.26'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.0.4'
+        annotationProcessor 'org.projectlombok:lombok:1.18.26'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}

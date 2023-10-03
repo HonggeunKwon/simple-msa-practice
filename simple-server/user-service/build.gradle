@@ -1,0 +1,6 @@
+dependencies {
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: '4.0.3'
+    implementation group: 'io.github.openfeign', name: 'feign-core', version: '12.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.4'
+    runtimeOnly 'com.h2database:h2'
+}

@@ -1,0 +1,8 @@
+rootProject.name = 'simple-server'
+include 'user-service'
+include 'event-service'
+include 'config-service'
+include 'common-project'
+include 'eureka-service'
+include 'gateway-service'
+include 'auth-service'
